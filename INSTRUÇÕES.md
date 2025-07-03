@@ -11,6 +11,49 @@
    ```bash
    git clone git@github.com:pedrororatto/alloy.git
    ```
+# 📋 Instruções de Uso e Documentação da API
+
+## Como rodar o projeto (Docker)
+
+2. **Configure o arquivo de ambiente (.env):**
+   - Copie o arquivo de exemplo:
+     ```bash
+     cp .env.example .env
+     ```
+   - Edite o arquivo `.env` e garanta que exista a linha:
+     ```env
+     DB_DATABASE=database/database.sqlite
+     ```
+
+3. **Crie o arquivo do banco de dados SQLite:**
+   ```bash
+   touch database/database.sqlite
+   ```
+
+4. **Suba os containers:**
+   ```bash
+   docker-compose up --build
+   ```
+
+5. **Gere a chave da aplicação:**
+   ```bash
+   docker-compose exec app php artisan key:generate
+   ```
+
+6. **Acesse:**
+   - **Frontend + Backend:** [http://localhost:8000](http://localhost:8000)
+   - **Frontend Vite (dev):** [http://localhost:5173](http://localhost:5173)
+
+7. **Rodando migrations (primeira vez):**
+   Em outro terminal:
+   ```bash
+   docker-compose exec app php artisan migrate
+   ```
+
+8. **Queue Worker:**
+   Já sobe automaticamente via serviço `queue` no Docker Compose.
+
+---
 
 2. **Configure o arquivo de ambiente (.env):**
    - Copie o arquivo de exemplo:
