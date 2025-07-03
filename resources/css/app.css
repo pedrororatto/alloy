@@ -19,3 +19,28 @@ input:-internal-autofill-selected + label,
 input {
     color: #000000;
 }
+
+body > .modal-task,
+html body > .modal-task {
+  
+  z-index: 99999 !important;
+  background: rgba(0,0,0,0.25) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: all !important;
+}
+
+.task {
+  position: relative;
+}
+.remove-task {
+  display: flex !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  right: 20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  align-items: center !important;
+}

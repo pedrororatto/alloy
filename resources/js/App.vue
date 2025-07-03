@@ -5,9 +5,5 @@ import TasksContainer from '@/components/TasksContainer.vue';
 </script>
 
 <template>
-  <div class="content-tasks">
-    <Appbar />
-    <TasksContainer />
-    <Footer />
-  </div>
+  <TasksContainer />
 </template>
