@@ -9,8 +9,7 @@
 
 1. **Clone o repositório:**
    ```bash
-   git clone <repo-url>
-   cd <repo>
+   git clone git@github.com:pedrororatto/alloy.git
    ```
 
 2. **Configure o arquivo de ambiente (.env):**
