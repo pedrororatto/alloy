@@ -54,7 +54,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $task = $this->service->toggle($task);
         if ($task->finalizado) {
-            DeleteCompletedTask::dispatch($task)->delay(now()->addMinutes(2));
+            DeleteCompletedTask::dispatch($task)->delay(now()->addMinutes(1));
         }
         return response()->json($task);
     }

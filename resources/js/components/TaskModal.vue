@@ -36,9 +36,6 @@
         </div>
         <div class="bottom-modal">
           <div class="flex-block-horizontal-right-align" style="justify-content: center;">
-            <div class="button outlined rounded" @click.prevent="close" :class="{disabled: saving}" :disabled="saving">
-              <div>Fechar</div>
-            </div>
             <button type="submit" class="button rounded" form="modal-form" :disabled="saving">
               <span v-if="saving" class="spinner spinner-btn"></span>
               <div v-if="!saving">Salvar / Editar</div>
