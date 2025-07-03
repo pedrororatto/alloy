@@ -2,64 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\TaskService;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use App\Jobs\DeleteCompletedTask;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 
 class TaskController extends Controller
 {
+    protected $service;
+
+    public function __construct(TaskService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        $tasks = Task::whereNull('deleted_at')->orderByDesc('created_at')->get();
+        $tasks = $this->service->list();
         return response()->json($tasks);
     }
 
     public function show($id)
     {
-        $task = Task::findOrFail($id);
+        $task = $this->service->find($id);
         return response()->json($task);
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $data = $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'finalizado' => 'boolean',
-            'data_limite' => 'nullable|date',
-        ]);
-        $task = Task::create($data);
+        $task = $this->service->create($request->validated());
         return response()->json($task, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateTaskRequest $request, $id)
     {
         $task = Task::findOrFail($id);
-        $data = $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'finalizado' => 'boolean',
-            'data_limite' => 'nullable|date',
-        ]);
-        $task->update($data);
+        $task = $this->service->update($task, $request->validated());
         return response()->json($task);
     }
 
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
-        $task->delete();
+        $this->service->delete($task);
         return response()->json(['message' => 'Tarefa excluída com sucesso.']);
     }
 
     public function toggle($id)
     {
         $task = Task::findOrFail($id);
-        $task->finalizado = !$task->finalizado;
-        $task->save();
+        $task = $this->service->toggle($task);
         if ($task->finalizado) {
-            DeleteCompletedTask::dispatch($task)->delay(now()->addMinutes(10));
+            DeleteCompletedTask::dispatch($task)->delay(now()->addMinutes(2));
         }
         return response()->json($task);
     }
-} 
+}
